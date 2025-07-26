@@ -33,12 +33,11 @@ class PatientController extends Controller
             'image'      => 'nullable|image|max:2048',
         ]);
 
-        // Buscar paciente existente (si lo hay)
         $patient = Patient::where('user_id', $user->id)->first();
 
-        // Manejo de imagen
+    
         if ($request->hasFile('image')) {
-            // Eliminar imagen anterior si existe
+           
             if ($patient && $patient->image && File::exists(public_path($patient->image))) {
                 File::delete(public_path($patient->image));
             }
@@ -49,19 +48,17 @@ class PatientController extends Controller
 
             $validated['image'] = 'patients/' . $filename;
         } else {
-            // Si no hay imagen nueva y paciente existe, mantener la imagen anterior para evitar nullearla
+           
             if ($patient && isset($patient->image)) {
                 $validated['image'] = $patient->image;
             }
         }
 
-        // Crear o actualizar paciente
         $patient = Patient::updateOrCreate(
             ['user_id' => $user->id],
             array_merge($validated, ['user_id' => $user->id])
         );
 
-        // Agregar URL pública a la respuesta
         $patient->image_url = $patient->image ? asset($patient->image) : null;
 
         return response()->json([
