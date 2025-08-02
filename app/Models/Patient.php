@@ -13,6 +13,7 @@ class Patient extends Model implements JWTSubject
     use Notifiable;
     use HasFactory;
     protected $fillable = [
+        
         'name',
         'email',
         'sex',

@@ -15,6 +15,10 @@ return new class extends Migration {
             $table->string('doctor')->nullable(); 
             $table->timestamps();
 
+            
+
+            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
+
             $table->foreign('patient_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

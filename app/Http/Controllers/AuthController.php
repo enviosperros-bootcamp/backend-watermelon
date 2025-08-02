@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeUserMail;
+
 
 
 
@@ -26,6 +29,8 @@ public function register(Request $request)
             'password' => bcrypt($validated['password']),
             'email_verified_at' => now(),
         ]);
+        Mail::to($user->email)->send(new WelcomeUserMail($user));
+
 
         $token = auth('api')->attempt([
             'email' => $validated['email'],
@@ -51,6 +56,7 @@ public function register(Request $request)
             'errors' => $e->errors()
         ], 422);
     }
+    
 }
 
 

@@ -24,9 +24,9 @@ class ClientsController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'created_at' => $user->created_at,
-                    'last_login_at' => null, // Añade este campo si lo necesitas
-                    'role' => 'Paciente',    // Valor por defecto
-                    'status' => 'Active'      // Valor por defecto
+                    'last_login_at' => null, 
+                    'role' => $user->role,    
+                    'status' => 'Active'      
                 ];
             })
         ]);
